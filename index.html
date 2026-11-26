@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Munger Digital Services</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fc;color:#172554}
+header{background:#173b91;color:white;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:24px}
+header p{margin:8px 0 0}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:white;padding:12px}
+button{border:0;border-radius:9px;padding:11px 15px;background:#1745a0;color:white;font-weight:bold;cursor:pointer}
+nav button{background:#e8efff;color:#173b91}
+main{max-width:850px;margin:20px auto;padding:12px}
+h2{font-size:21px}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:white;padding:16px;border-radius:14px;box-shadow:0 2px 10px #0001}
+.food{font-size:42px}
+.price{font-weight:bold;color:#1745a0}
+.card button{width:100%;margin-top:10px}
+.panel{background:white;padding:18px;border-radius:14px;margin:15px 0}
+.item{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #eee;padding:12px 0}
+.hidden{display:none}
+input{width:100%;padding:12px;border:1px solid #ccd3e0;border-radius:8px;margin:7px 0}
+footer{text-align:center;color:#64748b;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<h1>Munger Digital Services</h1>
+<p>Restaurant QR Ordering System</p>
+</header>
+
+<nav>
+<button onclick="show('menu')">Menu</button>
+<button onclick="show('cart')">My Cart</button>
+<button onclick="show('orders')">Orders</button>
+<button onclick="show('owner')">Owner Demo</button>
+</nav>
+
+<main>
+<section id="menu">
+<h2>🍽️ Our Food Menu</h2>
+<div class="menu" id="foodList"></div>
+</section>
+
+<section id="cart" class="hidden">
+<h2>🛒 Your Cart</h2>
+<div class="panel" id="cartList"></div>
+<input id="customer" placeholder="Customer name">
+<input id="table" placeholder="Table number (e.g. 01)">
+<button onclick="placeOrder()">Place Order</button>
+</section>
+
+<section id="orders" class="hidden">
+<h2>📋 Your Orders</h2>
+<div class="panel" id="orderList"></div>
+</section>
+
+<section id="owner" class="hidden">
+<h2>👨‍💼 Owner Demo Dashboard</h2>
+<div class="panel" id="ownerList"></div>
+</section>
+</main>
+
+<footer>© 2026 Munger Digital Services</footer>
+
+<script>
+const foods=[
+{name:"Veg Burger",price:60,emoji:"🍔"},
+{name:"Pizza",price:120,emoji:"🍕"},
+{name:"French Fries",price:70,emoji:"🍟"},
+{name:"Cold Coffee",price:80,emoji:"🥤"}
+];
+let cart=[];
+let orders=JSON.parse(localStorage.getItem("mdsOrders")||"[]");
+
+function show(id){
+document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+if(id==="cart")renderCart();
+if(id==="orders")renderOrders();
+if(id==="owner")renderOwner();
+}
+function renderMenu(){
+document.getElementById("foodList").innerHTML=foods.map((f,i)=>`
+<div class="card">
+<div class="food">${f.emoji}</div>
+<h3>${f.name}</h3>
+<p class="price">₹${f.price}</p>
+<button onclick="add(${i})">Add to Cart</button>
+</div>`).join("");
+}
+function add(i){cart.push(foods[i]);alert(foods[i].name+" added to cart");}
+function renderCart(){
+let total=cart.reduce((s,f)=>s+f.price,0);
+document.getElementById("cartList").innerHTML=cart.length?
+cart.map(f=>`<div class="item"><span>${f.emoji} ${f.name}</span><b>₹${f.price}</b></div>`).join("")+
+`<h3>Total: ₹${total}</h3>`:"Your cart is empty.";
+}
+function placeOrder(){
+if(!cart.length){alert("Cart is empty");return;}
+let name=document.getElementById("customer").value.trim();
+let table=document.getElementById("table").value.trim();
+if(!name||!table){alert("Enter name and table number");return;}
+orders.push({name,table,items:cart.map(f=>f.name).join(", "),total:cart.reduce((s,f)=>s+f.price,0),status:"New"});
+localStorage.setItem("mdsOrders",JSON.stringify(orders));
+cart=[];
+alert("Demo order placed successfully!");
+show("orders");
+}
+function renderOrders(){
+document.getElementById("orderList").innerHTML=orders.length?
+orders.map(o=>`<div class="item"><span>Table ${o.table}<br>${o.name}<br>${o.items}</span><b>₹${o.total}<br>${o.status}</b></div>`).join(""):"No orders yet.";
+}
+function renderOwner(){
+document.getElementById("ownerList").innerHTML=
+`<h3>Total demo orders: ${orders.length}</h3>`+
+(orders.map(o=>`<div class="item">Table ${o.table} – ${o.name}<br>₹${o.total}</div>`).join("")||"No orders yet.");
+}
+renderMenu();
+</script>
+</body>
+</html>
