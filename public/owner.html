@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#173b91">
+<title>Owner Dashboard — Munger Digital Services</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">👨‍💼</span>
+    <div class="brand-text">
+      <h1>Owner Dashboard</h1>
+      <p id="ownerMeta">Munger Digital Services</p>
+    </div>
+  </div>
+  <a class="pill" href="/">Customer app</a>
+</header>
+
+<main class="wrap">
+  <section id="gate" class="card gate">
+    <h2>Owner PIN daalein</h2>
+    <p class="muted">Default PIN <b>1234</b> hai. Server par <code>OWNER_PIN</code> env se badal sakte hain.</p>
+    <input id="pin" type="password" inputmode="numeric" placeholder="PIN" autocomplete="current-password" maxlength="12">
+    <button class="btn full" id="unlock" type="button">Dashboard kholein</button>
+    <p class="hint error hidden" id="gateErr"></p>
+  </section>
+
+  <section id="dash" class="hidden">
+    <div class="stats" id="stats"></div>
+
+    <div class="chips" id="tabs">
+      <button type="button" data-tab="orders" class="active">Live orders</button>
+      <button type="button" data-tab="menu">Menu</button>
+      <button type="button" data-tab="qr">QR codes</button>
+    </div>
+
+    <section id="tab-orders">
+      <div class="chips" id="filters">
+        <button type="button" data-filter="active" class="active">Active</button>
+        <button type="button" data-filter="new">Naye</button>
+        <button type="button" data-filter="preparing">Ban rahe</button>
+        <button type="button" data-filter="served">Serve</button>
+        <button type="button" data-filter="paid">Paid</button>
+        <button type="button" data-filter="cancelled">Cancel</button>
+        <button type="button" data-filter="all">Aaj ke sab</button>
+      </div>
+      <div id="orderList"></div>
+      <p id="orderEmpty" class="empty hidden">Is filter me koi order nahi hai.</p>
+      <p class="hint no-print">Har 6 second me list khud refresh hoti hai.</p>
+    </section>
+
+    <section id="tab-menu" class="hidden">
+      <div class="card" style="margin-bottom:14px">
+        <h3 style="margin:0 0 10px;font-size:16px">Naya dish jodein</h3>
+        <div class="form">
+          <input id="newName" placeholder="Dish ka naam">
+          <input id="newPrice" placeholder="Price (₹)" inputmode="numeric">
+          <input id="newCategory" placeholder="Category (Starters, Drinks…)" list="catList">
+          <datalist id="catList"></datalist>
+          <input id="newEmoji" placeholder="Emoji (optional)" maxlength="4">
+          <button class="btn full" id="addDish" type="button">Dish add karein</button>
+          <p class="hint" id="menuHint"></p>
+        </div>
+      </div>
+      <div class="card" id="menuRows"></div>
+    </section>
+
+    <section id="tab-qr" class="hidden">
+      <div class="card no-print" style="margin-bottom:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div>
+          <b>Table QR codes</b>
+          <p class="hint" style="margin:4px 0 0">Print karke har table par chipka dein. Customer scan karke seedha menu kholega.</p>
+        </div>
+        <button class="btn" id="printQr" type="button">Print karein</button>
+      </div>
+      <div class="qr-grid" id="qrGrid"></div>
+    </section>
+  </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+<script src="/owner.js" type="module"></script>
+</body>
+</html>
