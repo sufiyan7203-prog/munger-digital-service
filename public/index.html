@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#173b91">
+<title>Munger Digital Services — QR Ordering</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🍽️</span>
+    <div class="brand-text">
+      <h1 id="restName">Munger Digital Services</h1>
+      <p id="tagline">Restaurant QR Ordering</p>
+    </div>
+  </div>
+  <button class="pill" id="tableBtn" type="button">Table —</button>
+</header>
+
+<main class="wrap">
+  <section id="menuView">
+    <div class="hero">
+      <div>
+        <h2>Menu</h2>
+        <p class="muted" id="menuMeta">Menu load ho raha hai…</p>
+      </div>
+      <input id="search" class="search" type="search" placeholder="Dish search karein" autocomplete="off">
+    </div>
+
+    <div id="cats" class="chips"></div>
+    <div id="menuList" class="grid"></div>
+    <p id="menuEmpty" class="empty hidden">Kuch nahi mila. Doosra dish try karein.</p>
+  </section>
+
+  <section id="trackView" class="hidden">
+    <div class="card track-card" id="trackCard"></div>
+    <button class="btn ghost full" id="backToMenu" type="button">← Menu par wapas</button>
+  </section>
+</main>
+
+<div class="cartbar hidden" id="cartBar">
+  <div class="cartbar-info">
+    <b id="cartQty">0 items</b>
+    <span id="cartTotal">₹0</span>
+  </div>
+  <button class="btn" id="openCart" type="button">Cart dekhein</button>
+</div>
+
+<div class="sheet hidden" id="cartSheet">
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <h3>Aapka cart</h3>
+      <button class="icon" id="closeCart" type="button" aria-label="Band karein">✕</button>
+    </div>
+    <div class="lines" id="cartLines"></div>
+    <div class="form">
+      <input id="custName" placeholder="Aapka naam" autocomplete="name">
+      <input id="custPhone" placeholder="Mobile number (optional)" inputmode="tel" autocomplete="tel">
+      <input id="custNote" placeholder="Note (kam mirch, extra gravy…)">
+    </div>
+    <div class="total-row"><span>Total</span><b id="sheetTotal">₹0</b></div>
+    <button class="btn full" id="placeOrder" type="button">Order place karein</button>
+    <p class="hint" id="cartHint"></p>
+  </div>
+</div>
+
+<div class="sheet hidden" id="tableSheet">
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <h3>Table select karein</h3>
+      <button class="icon" id="closeTable" type="button" aria-label="Band karein">✕</button>
+    </div>
+    <p class="muted">QR scan kiya tha to table khud aa jayega. Nahi to yahan se chunein.</p>
+    <div id="tableGrid" class="chips" style="padding-top:12px"></div>
+    <button class="btn ghost full" id="takeawayBtn" type="button">Takeaway (parcel)</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>
