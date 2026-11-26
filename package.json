@@ -1,0 +1,19 @@
+{
+  "name": "munger-digital-service",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Restaurant QR Ordering System — customer QR menu, cart, live orders and owner dashboard",
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "qrcode": "^1.5.4"
+  }
+}
